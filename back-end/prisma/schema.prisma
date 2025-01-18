@@ -15,7 +15,7 @@ datasource db {
 
 model User {
   id            Int            @id @default(autoincrement())
-  tipo          Int
+  role          Int
   username      String         @unique
   password      String
   monthlyValues MonthlyValue[]
