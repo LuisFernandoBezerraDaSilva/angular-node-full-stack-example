@@ -5,9 +5,9 @@ import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from '../../services/storage.service';
+import { SharedModule } from '../../shared.module';
 
 @Component({
   selector: 'app-login-page',
@@ -18,7 +18,7 @@ import { StorageService } from '../../services/storage.service';
     MatButtonModule,
     MatCardModule,
     FormsModule,
-    HttpClientModule 
+    SharedModule
   ],
   providers: [ 
     AuthService,
@@ -31,7 +31,11 @@ export class LoginPageComponent {
   username: string = '';
   password: string = '';
 
-  constructor(private authService: AuthService, private storageService: StorageService, private router: Router) {}
+  constructor(
+    private authService: AuthService, 
+    private storageService: StorageService, 
+    private router: Router
+  ) {}
 
   login() {
     this.authService.login({ username: this.username, password: this.password }).subscribe({

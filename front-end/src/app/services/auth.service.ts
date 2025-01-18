@@ -7,9 +7,9 @@ import { StorageService } from './storage.service';
   providedIn: 'root'
 })
 export class AuthService extends BaseService<any> {
+
   constructor(http: HttpClient, storageService: StorageService) {
     super(http, storageService);
-    this.baseUrl = 'http://localhost:3000';
   }
 
   login(credentials: { username: string, password: string }) {
