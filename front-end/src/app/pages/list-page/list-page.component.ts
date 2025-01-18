@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-// import { AgridComponent } from '../../components/agrid/agrid.component';
+import { AgridComponent } from '../../components/agrid/agrid.component';
 import { ValueService } from '../../services/value.service';
 import { ColDef } from 'ag-grid-community';
-import { getObjectKeys } from '../../helpers/object-keys.helper';
 import { MatCardModule } from '@angular/material/card';
 import { StorageService } from '../../services/storage.service';
 import { SharedModule } from '../../shared.module';
@@ -11,7 +10,7 @@ import { SharedModule } from '../../shared.module';
   selector: 'app-list-page',
   standalone: true,
   imports: [
-    // AgridComponent,
+    AgridComponent,
     MatCardModule,
     SharedModule
   ],
@@ -25,19 +24,24 @@ import { SharedModule } from '../../shared.module';
 export class ListPageComponent implements OnInit {
   values: any[] = [];
   columnDefs: ColDef[] = [];
+  isLoading: boolean = true;
 
   constructor(private valueService: ValueService) {}
 
   ngOnInit(): void {
     this.valueService.getValues().subscribe({
       next: (data: any) => {
+        console.log(data);
         this.values = data;
         if (data.length > 0) {
-          this.columnDefs = getObjectKeys(data[0]);
+          this.columnDefs = Object.keys(data[0]).map(key => ({ field: key }));
+          console.log(this.columnDefs);
         }
+        this.isLoading = false;
       },
       error: (err: any) => {
         console.error('Error fetching values', err);
+        this.isLoading = false;
       },
       complete: () => {
         console.log('Values fetching completed');

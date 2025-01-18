@@ -4,6 +4,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { ModuleRegistry } from '@ag-grid-community/core';
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 
+// Register the required feature modules with the Grid
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
 @Component({
@@ -13,10 +14,13 @@ ModuleRegistry.registerModules([ClientSideRowModelModule]);
   templateUrl: './agrid.component.html',
   styleUrls: ['./agrid.component.css']
 })
-export class AgridComponent {
+export class AgridComponent implements OnInit {
   @Input() columnDefs: ColDef[] = [];
   @Input() rowData: any[] = [];
 
   constructor() {}
 
+  ngOnInit(): void {
+    // Any initialization logic can go here
+  }
 }
