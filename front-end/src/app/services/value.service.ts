@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { BaseService } from './base.service';
 import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService extends BaseService<any> {
+export class ValueService extends BaseService<any> {
+
   constructor(http: HttpClient, storageService: StorageService) {
     super(http, storageService);
-    this.baseUrl = 'http://localhost:3000/auth';
   }
 
-  login(credentials: { username: string, password: string }) {
-    return this.create('login', credentials);
-  }
-
-  logout() {
-    return this.create('logout', {});
+  public getValues(): Observable<any[]> {
+    return this.getAll('values');
   }
 }
