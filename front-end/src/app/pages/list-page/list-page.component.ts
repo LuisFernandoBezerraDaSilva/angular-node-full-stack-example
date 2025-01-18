@@ -3,11 +3,15 @@ import { AgridComponent } from '../../components/agrid/agrid.component';
 import { ValueService } from '../../services/value.service';
 import { ColDef } from 'ag-grid-community';
 import { getObjectKeys } from '../../helpers/object-keys.helper';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-list-page',
   standalone: true,
-  imports: [AgridComponent],
+  imports: [
+    AgridComponent,
+    MatCardModule
+  ],
   templateUrl: './list-page.component.html',
   styleUrls: ['./list-page.component.css']
 })
