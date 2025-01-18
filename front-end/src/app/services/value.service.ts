@@ -14,6 +14,6 @@ export class ValueService extends BaseService<any> {
   }
 
   public getValues(): Observable<any[]> {
-    return this.getAll('values');
+    return this.getAll('value');
   }
 }
