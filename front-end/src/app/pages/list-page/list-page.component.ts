@@ -1,4 +1,3 @@
-// filepath: /e:/projects/angular-node-full-stack-example/front-end/src/app/pages/list-page/list-page.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 import { ValueService } from '../../services/value.service';
@@ -34,6 +33,7 @@ export class ListPageComponent implements OnInit {
   ngOnInit(): void {
     this.valueService.getValues().subscribe({
       next: (data: any) => {
+        console.log(data)
         const transformedData = this.transformData(data);
 
         this.columnDefs = this.createColumnDefs(data);
@@ -57,7 +57,7 @@ export class ListPageComponent implements OnInit {
 
     data.forEach(item => {
       if (!userMap[item.userId]) {
-        userMap[item.userId] = { userId: item.userId };
+        userMap[item.userId] = { userId: item.userId, name: item.name };
       }
       userMap[item.userId][item.month] = item.value;
     });
@@ -70,6 +70,7 @@ export class ListPageComponent implements OnInit {
 
     const columnDefs: ColDef[] = [
       { field: 'userId', headerName: 'User ID' },
+      { field: 'name', headerName: 'Name' },
       ...months.map(month => ({ field: month, headerName: getMonthName(month) }))
     ];
 
