@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from '../../services/storage.service';
 import { SharedModule } from '../../shared.module';
@@ -18,6 +19,7 @@ import { SharedModule } from '../../shared.module';
     MatButtonModule,
     MatCardModule,
     FormsModule,
+    MatSnackBarModule,
     SharedModule
   ],
   providers: [ 
@@ -34,7 +36,8 @@ export class LoginPageComponent {
   constructor(
     private authService: AuthService, 
     private storageService: StorageService, 
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   login() {
@@ -45,6 +48,9 @@ export class LoginPageComponent {
       },
       error: (err) => {
         console.error('Login failed', err);
+        this.snackBar.open('Senha incorreta!', 'Fechar', {
+          duration: 3000,
+        });
       }
     });
   }
