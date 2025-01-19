@@ -41,7 +41,6 @@ export class LoginPageComponent {
     this.authService.login({ username: this.username, password: this.password }).subscribe({
       next: (response) => {
         this.storageService.setToken(response.token);
-        console.log('Login successful', response);
         this.router.navigate(['/list']);
       },
       error: (err) => {

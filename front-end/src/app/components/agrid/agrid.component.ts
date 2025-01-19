@@ -1,11 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
-import { ModuleRegistry } from '@ag-grid-community/core';
-import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
+import { AllCommunityModule, ModuleRegistry, provideGlobalGridOptions } from 'ag-grid-community';
 
-// Register the required feature modules with the Grid
-ModuleRegistry.registerModules([ClientSideRowModelModule]);
+// Register all community features
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-agrid',
@@ -21,6 +20,11 @@ export class AgridComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+    // Register all community features
+
+    // Mark all grids as using legacy themes
+    // provideGlobalGridOptions({ theme: "legacy" });
+
     // Any initialization logic can go here
   }
 }

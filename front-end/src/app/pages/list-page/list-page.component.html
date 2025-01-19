@@ -1,6 +1,6 @@
 <mat-card>
   <ng-container *ngIf="!isLoading; else loading">
-    <app-agrid [columnDefs]="columnDefs" [rowData]="values"></app-agrid>
+    <app-agrid [columnDefs]="columnDefs" [rowData]="rowData"></app-agrid>
   </ng-container>
   <ng-template #loading>
     <p>Loading...</p>
