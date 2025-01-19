@@ -2,16 +2,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { StorageService } from './storage.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BaseService<T> {
-  baseUrl: string = 'http://localhost:3000';
+  baseUrl: string = environment.apiUrl;
 
-  constructor(protected http: HttpClient, private storageService: StorageService) {
-    this.baseUrl = this.baseUrl;
-  }
+  constructor(protected http: HttpClient, private storageService: StorageService) {}
 
   private getHeaders(): HttpHeaders {
     const token = this.storageService.getToken();
