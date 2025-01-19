@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { SharedModule } from '../../shared.module';
 import { StorageService } from '../../services/storage.service';
 import { getMonthName } from '../../helpers/date.helper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-page',
@@ -28,16 +29,26 @@ export class ListPageComponent implements OnInit {
   columnDefs: ColDef[] = [];
   isLoading = true;
 
-  constructor(private valueService: ValueService) {}
+  constructor(private valueService: ValueService, private router: Router) {}
 
   ngOnInit(): void {
-    this.valueService.getValues().subscribe(data => {
-      const transformedData = this.transformData(data);
+    this.valueService.getValues().subscribe({
+      next: (data: any) => {
+        const transformedData = this.transformData(data);
 
-      this.columnDefs = this.createColumnDefs(data);
+        this.columnDefs = this.createColumnDefs(data);
 
-      this.rowData = transformedData;
-      this.isLoading = false;
+        this.rowData = transformedData;
+        this.isLoading = false;
+      },
+      error: (error: any) => {
+        if (error.status === 403) {
+          this.router.navigate(['']);
+        } else {
+          console.error(error);
+        }
+        this.isLoading = false;
+      }
     });
   }
 
