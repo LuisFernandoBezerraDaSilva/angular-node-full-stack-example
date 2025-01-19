@@ -1,3 +1,4 @@
+// filepath: /e:/projects/angular-node-full-stack-example/front-end/src/app/pages/list-page/list-page.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 import { ValueService } from '../../services/value.service';
@@ -5,6 +6,7 @@ import { AgridComponent } from '../../components/agrid/agrid.component';
 import { MatCardModule } from '@angular/material/card';
 import { SharedModule } from '../../shared.module';
 import { StorageService } from '../../services/storage.service';
+import { getMonthName } from '../../helpers/date.helper';
 
 @Component({
   selector: 'app-list-page',
@@ -30,10 +32,8 @@ export class ListPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.valueService.getValues().subscribe(data => {
-      // Transform data
       const transformedData = this.transformData(data);
 
-      // Define columns
       this.columnDefs = this.createColumnDefs(data);
 
       this.rowData = transformedData;
@@ -59,33 +59,9 @@ export class ListPageComponent implements OnInit {
 
     const columnDefs: ColDef[] = [
       { field: 'userId', headerName: 'User ID' },
-      ...months.map(month => ({ field: month, headerName: this.getMonthName(month) }))
+      ...months.map(month => ({ field: month, headerName: getMonthName(month) }))
     ];
 
     return columnDefs;
-  }
-
-  getMonthName(month: string): string {
-    const monthNames: { [key: string]: string } = {
-      '01': 'January',
-      '02': 'February',
-      '03': 'March',
-      '04': 'April',
-      '05': 'May',
-      '06': 'June',
-      '07': 'July',
-      '08': 'August',
-      '09': 'September',
-      '10': 'October',
-      '11': 'November',
-      '12': 'December'
-    };
-
-    if (month.includes('/')) {
-      const [monthPart, yearPart] = month.split('/');
-      return monthNames[monthPart as keyof typeof monthNames];
-    }
-
-    return month;
   }
 }
