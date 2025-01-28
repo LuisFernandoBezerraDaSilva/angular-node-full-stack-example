@@ -36,7 +36,6 @@ export class ListPageComponent extends BasePageComponent implements OnInit {
   ngOnInit(): void {
     const valueSubscription = this.valueService.getValues().subscribe({
       next: (data: any) => {
-        console.log(data)
         const transformedData = this.transformData(data);
 
         this.columnDefs = this.createColumnDefs(data);
