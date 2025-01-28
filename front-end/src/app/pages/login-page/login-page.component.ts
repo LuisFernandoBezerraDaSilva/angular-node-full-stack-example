@@ -9,6 +9,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from '../../services/storage.service';
 import { SharedModule } from '../../shared.module';
+import { BasePageComponent } from '../base-page/base-page.component';
 
 @Component({
   selector: 'app-login-page',
@@ -29,7 +30,7 @@ import { SharedModule } from '../../shared.module';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css']
 })
-export class LoginPageComponent {
+export class LoginPageComponent extends BasePageComponent {
   username: string = '';
   password: string = '';
 
@@ -38,10 +39,12 @@ export class LoginPageComponent {
     private storageService: StorageService, 
     private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    super();
+  }
 
   login() {
-    this.authService.login({ username: this.username, password: this.password }).subscribe({
+    const loginSubscription = this.authService.login({ username: this.username, password: this.password }).subscribe({
       next: (response) => {
         this.storageService.setToken(response.token);
         this.router.navigate(['/list']);
@@ -53,5 +56,7 @@ export class LoginPageComponent {
         });
       }
     });
+
+    this.addSubscription(loginSubscription);
   }
 }

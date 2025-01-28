@@ -7,6 +7,7 @@ import { SharedModule } from '../../shared.module';
 import { StorageService } from '../../services/storage.service';
 import { getMonthName } from '../../helpers/date.helper';
 import { Router } from '@angular/router';
+import { BasePageComponent } from '../base-page/base-page.component';
 
 @Component({
   selector: 'app-list-page',
@@ -23,15 +24,17 @@ import { Router } from '@angular/router';
   templateUrl: './list-page.component.html',
   styleUrls: ['./list-page.component.css']
 })
-export class ListPageComponent implements OnInit {
+export class ListPageComponent extends BasePageComponent implements OnInit {
   rowData: any[] = [];
   columnDefs: ColDef[] = [];
   isLoading = true;
 
-  constructor(private valueService: ValueService, private router: Router) {}
+  constructor(private valueService: ValueService, private router: Router) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.valueService.getValues().subscribe({
+    const valueSubscription = this.valueService.getValues().subscribe({
       next: (data: any) => {
         console.log(data)
         const transformedData = this.transformData(data);
@@ -50,6 +53,8 @@ export class ListPageComponent implements OnInit {
         this.isLoading = false;
       }
     });
+
+    this.addSubscription(valueSubscription);
   }
 
   transformData(data: any[]): any[] {
