@@ -44,19 +44,23 @@ export class LoginPageComponent extends BasePageComponent {
   }
 
   login() {
+    console.log('Login method called');
     const loginSubscription = this.authService.login({ username: this.username, password: this.password }).subscribe({
       next: (response) => {
+        console.log('Login successful', response);
         this.storageService.setToken(response.token);
         this.router.navigate(['/list']);
       },
       error: (err) => {
         console.error('Login failed', err);
-        this.snackBar.open('Senha incorreta!', 'Fechar', {
-          duration: 3000,
-        });
+        if (err.status === 401) {
+          this.snackBar.open('Senha incorreta!', 'Fechar', { duration: 3000 });
+        } else {
+          this.snackBar.open('Erro ao fazer login!', 'Fechar', { duration: 3000 });
+        }
       }
     });
-
+  
     this.addSubscription(loginSubscription);
   }
 }
