@@ -72,7 +72,6 @@ describe('LoginPageComponent', () => {
 
     loginButton.nativeElement.click();
 
-    
     setTimeout(() => {
       expect(authService.login).toHaveBeenCalledWith({ username: 'admin', password: 'admin123' });
       expect(storageService.setToken).toHaveBeenCalledWith(mockResponse.token);
@@ -85,6 +84,24 @@ describe('LoginPageComponent', () => {
 
     component.username = 'admin';
     component.password = 'admin123';
+
+    fixture.detectChanges(); 
+
+    const loginButton: DebugElement = fixture.debugElement.query(By.css('button'));
+    
+    expect(loginButton).not.toBeNull(); 
+    loginButton.nativeElement.click(); 
+
+    setTimeout(() => {
+      expect(snackBar.open).toHaveBeenCalledWith('Senha incorreta!', 'Fechar', { duration: 3000 });
+    }, 100);
+  });
+
+  it('should show error message on incorrect password', () => {
+    authService.login.and.returnValue(throwError({ status: 401 }));
+
+    component.username = 'admin';
+    component.password = 'wrongpassword';
 
     fixture.detectChanges(); 
 
